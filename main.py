@@ -78,25 +78,13 @@ def search_books(searchterms):
     url = f'https://www.gutenberg.org/ebooks/search/?submit_search=Go%21&query={searchterms}'
     soup = BeautifulSoup(get_response(url), 'html.parser')
 
-
-    #for link in soup.find_all(class_="booklink"):
-        #print(link.text)
-    #return link.text
-
-    """
-    for link in soup.findAll("a", href=True):
-        if link.h3:
-            follow = urlparse(link['href'][7:]).hostname
-            if follow:
-                return f"https://{follow}"
-    return ""
-    """
-
-    for link in soup.find_all(class_="booklink"):
-        with open('guternbeg_aiw.txt', 'w') as f:
-            f.write(link.text)
-        print(link.text)
-    return link.text
+    with open('guternbeg_aiw.txt', 'w') as f:
+        count = 0
+        for link in soup.find_all(class_="booklink"):
+            if count < 6:
+                f.write(f'\n----------------R---------{count}:-------\n' + link.text.strip())
+                print(link.text)
+                count = count + 1
 
 
 
